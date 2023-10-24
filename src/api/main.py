@@ -11,8 +11,9 @@ app = FastAPI()
 
 async def setup_repositories():
     storage = PostgresSQLAlchemyStorage.from_url(settings.DB_URL)
-    participant_repository = SqlCurrencyRepository(storage)
+    currency_repository = SqlCurrencyRepository(storage)
     Dependencies.set_storage(storage)
+    Dependencies.set_currency_repository(currency_repository)
 
     # await storage.drop_all()
     # await storage.create_all()
