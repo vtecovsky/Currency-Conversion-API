@@ -1,5 +1,5 @@
-from abc import ABCMeta, abstractmethod
+from abc import ABC, abstractmethod
 
 
-class AbstractCurrencyRepository(metaclass=ABCMeta):
+class AbstractCurrencyRepository(ABC):
     ...

@@ -1,4 +1,4 @@
-__all__ = ["AbstractSQLAlchemyStorage", "SQLAlchemyStorage"]
+__all__ = ["AbstractSQLAlchemyStorage", "PostgresSQLAlchemyStorage"]
 
 from src.storage.sql.storage import (AbstractSQLAlchemyStorage,
-                                     SQLAlchemyStorage)
+                                     PostgresSQLAlchemyStorage)

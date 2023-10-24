@@ -1,4 +1,4 @@
-__all__ = ["SQLAlchemyStorage", "AbstractSQLAlchemyStorage"]
+__all__ = ["PostgresSQLAlchemyStorage", "AbstractSQLAlchemyStorage"]
 
 from abc import ABC, abstractmethod
 
@@ -20,7 +20,7 @@ class AbstractSQLAlchemyStorage(ABC):
         ...
 
 
-class SQLAlchemyStorage(AbstractSQLAlchemyStorage):
+class PostgresSQLAlchemyStorage(AbstractSQLAlchemyStorage):
     engine: AsyncEngine
     sessionmaker: async_sessionmaker
 
@@ -29,7 +29,7 @@ class SQLAlchemyStorage(AbstractSQLAlchemyStorage):
         self.sessionmaker = async_sessionmaker(expire_on_commit=False, bind=self.engine)
 
     @classmethod
-    def from_url(cls, url: str) -> "SQLAlchemyStorage":
+    def from_url(cls, url: str) -> "PostgresSQLAlchemyStorage":
         from sqlalchemy.ext.asyncio import create_async_engine
 
         engine = create_async_engine(url)
