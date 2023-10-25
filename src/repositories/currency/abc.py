@@ -7,5 +7,5 @@ class AbstractCurrencyRepository(ABC):
         ...
 
     @abstractmethod
-    async def setup_update(self) -> None:
+    async def setup_update(self, timestamp) -> None:
         ...

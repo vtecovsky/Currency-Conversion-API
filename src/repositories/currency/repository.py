@@ -24,14 +24,13 @@ class SqlCurrencyRepository(AbstractCurrencyRepository):
             selected_obj = await session.scalar(query)
             return selected_obj
 
-    async def setup_update(self) -> None:
+    async def setup_update(self, timestamp) -> None:
         async with self._create_session() as session:
-            now_datetime = datetime.now()
             if await self.get_last_update() is not None:
                 query = (
-                    update(LastCurrencyUpdate.updated_at).values(updated_at=now_datetime).returning(LastCurrencyUpdate)
+                    update(LastCurrencyUpdate).values(updated_at=timestamp).returning(LastCurrencyUpdate)
                 )
             else:
-                query = insert(LastCurrencyUpdate).values(updated_at=now_datetime).returning(LastCurrencyUpdate)
+                query = insert(LastCurrencyUpdate).values(updated_at=timestamp).returning(LastCurrencyUpdate)
             await session.scalar(query)
             await session.commit()
