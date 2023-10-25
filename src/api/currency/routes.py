@@ -1,11 +1,12 @@
 import datetime
+
 from src.api.currency import router
 from src.api.dependencies import CURRENCY_REPOSITORY_DEPENDENCY
 
 
 @router.post("/exchange_rates")
 async def update_exchange_rates(currency_repository: CURRENCY_REPOSITORY_DEPENDENCY):
-    res = await currency_repository.update_currency_rates()
+    res = await currency_repository.run_update_exchange_rates()
     return res
     # TODO Использовать внешний апи, чтобы получить информацию о валютах
     #  Сохранить обновленные данные в базу данных, добавить запись об обновлении.
@@ -14,7 +15,7 @@ async def update_exchange_rates(currency_repository: CURRENCY_REPOSITORY_DEPENDE
 @router.get("/last_update")
 async def get_last_currency_update(currency_repository: CURRENCY_REPOSITORY_DEPENDENCY):
     # TODO Обработать случай, когда не было еще обновления в БД.
-    last_update = await currency_repository.get_last_update()
+    last_update = await currency_repository.get_last_update_time()
     if last_update is not None:
         dt = datetime.datetime.fromtimestamp(last_update)
         formatted_date = dt.strftime("%Y-%m-%d %H:%M:%S")
