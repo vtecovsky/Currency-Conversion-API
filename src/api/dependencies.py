@@ -28,4 +28,4 @@ class Dependencies:
 
 
 STORAGE_DEPENDENCY = Annotated[AbstractSQLAlchemyStorage, Depends(Dependencies.get_storage)]
-PARTICIPANT_REPOSITORY_DEPENDENCY = Annotated[AbstractCurrencyRepository, Depends(Dependencies.get_currency_repository)]
+CURRENCY_REPOSITORY_DEPENDENCY = Annotated[AbstractCurrencyRepository, Depends(Dependencies.get_currency_repository)]
