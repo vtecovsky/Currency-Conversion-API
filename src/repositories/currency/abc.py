@@ -21,3 +21,11 @@ class AbstractCurrencyRepository(ABC):
     @abstractmethod
     async def convert_currency(self, from_currency: str, target_currency: str, amount: float) -> float:
         ...
+
+    @abstractmethod
+    async def convert_to_base(self, amount: float, from_currency: str) -> float:
+        ...
+
+    @abstractmethod
+    async def convert_to_target(self, amount: float, target_currency: str) -> float:
+        ...

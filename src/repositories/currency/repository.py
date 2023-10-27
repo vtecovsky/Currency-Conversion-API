@@ -6,6 +6,7 @@ from sqlalchemy.dialects.postgresql import insert
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from src.config import settings
+from src.exceptions import CurrencyNotFound
 from src.repositories.currency.abc import AbstractCurrencyRepository
 from src.storage.sql import AbstractSQLAlchemyStorage
 from src.storage.sql.models import Currency, LastCurrencyUpdate
@@ -77,21 +78,26 @@ class SqlCurrencyRepository(AbstractCurrencyRepository):
         timestamp = response.get("timestamp")
         await self.setup_update_time(timestamp)
 
-    async def convert_to_base(self, amount: float, from_currency: str):
+    async def convert_to_base(self, amount: float, from_currency: str) -> float:
         async with self._create_session() as session:
-            # TODO Обработать ошибку исключением, когда валюты на нашлось
             query = select(Currency).where(Currency.code == from_currency)
             obj = await session.scalar(query)
+            if not obj:
+                raise CurrencyNotFound()
             return amount / obj.rate
 
-    async def convert_to_target(self, amount: float, target: str):
+    async def convert_to_target(self, amount: float, target_currency: str) -> float:
         async with self._create_session() as session:
-            query = select(Currency).where(Currency.code == target)
+            query = select(Currency).where(Currency.code == target_currency)
             obj = await session.scalar(query)
+            if not obj:
+                raise CurrencyNotFound()
             return amount * obj.rate
 
     async def convert_currency(self, from_currency: str, target_currency: str, amount: float) -> float:
         await self.run_update_exchange_rates()
+        if from_currency == target_currency:
+            return amount
         base_money = await self.convert_to_base(amount, from_currency)
         final_money = await self.convert_to_target(base_money, target_currency)
         return final_money
