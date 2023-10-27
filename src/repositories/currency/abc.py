@@ -19,5 +19,5 @@ class AbstractCurrencyRepository(ABC):
         ...
 
     @abstractmethod
-    async def convert_currency(self, from_currency: str, to_currency: str, amount: float) -> float:
+    async def convert_currency(self, from_currency: str, target_currency: str, amount: float) -> float:
         ...

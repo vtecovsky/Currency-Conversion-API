@@ -50,24 +50,48 @@ class SqlCurrencyRepository(AbstractCurrencyRepository):
         async with self._create_session() as session:
             if await self.get_last_update_time() is not None:
                 for currency_code, exchange_rate in rates.items():
-                    query = update(Currency).where(Currency.code == currency_code).values(rate=exchange_rate).returning(
-                        Currency)
+                    query = (
+                        update(Currency)
+                        .where(Currency.code == currency_code)
+                        .values(rate=exchange_rate)
+                        .returning(Currency)
+                    )
                     await session.scalar(query)
                     await session.commit()
             else:
                 from src.repositories.currency.utils import currency_dict
+
                 for currency_code, exchange_rate in rates.items():
                     currency_name = currency_dict.get(currency_code, "Error")
-                    query = insert(Currency).values(name=currency_name, code=currency_code,
-                                                    rate=exchange_rate).returning(Currency)
+                    query = (
+                        insert(Currency)
+                        .values(name=currency_name, code=currency_code, rate=exchange_rate)
+                        .returning(Currency)
+                    )
                     await session.scalar(query)
                     await session.commit()
 
     async def run_update_exchange_rates(self) -> None:
         response = await self.get_response_from_api()
-        await self.update_exchange_rates(response.get('rates'))
+        await self.update_exchange_rates(response.get("rates"))
         timestamp = response.get("timestamp")
         await self.setup_update_time(timestamp)
 
-    async def convert_currency(self, from_currency: str, to_currency: str, amount: float) -> float:
+    async def convert_to_base(self, amount: float, from_currency: str):
+        async with self._create_session() as session:
+            # TODO Обработать ошибку исключением, когда валюты на нашлось
+            query = select(Currency).where(Currency.code == from_currency)
+            obj = await session.scalar(query)
+            return amount / obj.rate
+
+    async def convert_to_target(self, amount: float, target: str):
+        async with self._create_session() as session:
+            query = select(Currency).where(Currency.code == target)
+            obj = await session.scalar(query)
+            return amount * obj.rate
+
+    async def convert_currency(self, from_currency: str, target_currency: str, amount: float) -> float:
         await self.run_update_exchange_rates()
+        base_money = await self.convert_to_base(amount, from_currency)
+        final_money = await self.convert_to_target(base_money, target_currency)
+        return final_money

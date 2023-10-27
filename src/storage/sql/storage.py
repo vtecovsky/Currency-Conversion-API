@@ -1,7 +1,6 @@
 from abc import ABC, abstractmethod
 
-from sqlalchemy.ext.asyncio import (AsyncEngine, AsyncSession,
-                                    async_sessionmaker)
+from sqlalchemy.ext.asyncio import AsyncEngine, AsyncSession, async_sessionmaker
 
 
 class AbstractSQLAlchemyStorage(ABC):
