@@ -15,9 +15,6 @@ async def setup_repositories():
     Dependencies.set_storage(storage)
     Dependencies.set_currency_repository(currency_repository)
 
-    # await storage.drop_all()
-    # await storage.create_all()
-
 
 @app.on_event("startup")
 async def startup_event():

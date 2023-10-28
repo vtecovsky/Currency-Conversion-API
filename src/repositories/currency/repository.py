@@ -64,7 +64,7 @@ class SqlCurrencyRepository(AbstractCurrencyRepository):
                 from src.repositories.currency.utils import currency_dict
 
                 for currency_code, exchange_rate in rates.items():
-                    currency_name = currency_dict.get(currency_code, "Error")
+                    currency_name = currency_dict.get(currency_code)
                     query = (
                         insert(Currency)
                         .values(name=currency_name, code=currency_code, rate=exchange_rate)
