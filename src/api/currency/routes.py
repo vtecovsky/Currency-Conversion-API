@@ -22,6 +22,6 @@ async def get_last_currency_update(currency_repository: CURRENCY_REPOSITORY_DEPE
 
 @router.get("/convert")
 async def convert_currency(
-        from_currency: str, target_currency: str, amount: float, currency_repository: CURRENCY_REPOSITORY_DEPENDENCY
+    from_currency: str, target_currency: str, amount: float, currency_repository: CURRENCY_REPOSITORY_DEPENDENCY
 ):
     return await currency_repository.convert_currency(from_currency, target_currency, amount)

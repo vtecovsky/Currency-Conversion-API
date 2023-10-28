@@ -6,7 +6,7 @@ from sqlalchemy.dialects.postgresql import insert
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from src.config import settings
-from src.exceptions import CurrencyNotFound
+from src.exceptions import CurrencyNotFound, ErrorFromExternalAPI
 from src.repositories.currency.abc import AbstractCurrencyRepository
 from src.storage.sql import AbstractSQLAlchemyStorage
 from src.storage.sql.models import Currency, LastCurrencyUpdate
@@ -39,12 +39,13 @@ class SqlCurrencyRepository(AbstractCurrencyRepository):
     @staticmethod
     async def get_response_from_api():
         async with (aiohttp.ClientSession() as session):
-            # TODO Добавить обработку в случае failure
             url = "http://api.exchangeratesapi.io/v1/latest"
             params = {"access_key": settings.ACCESS_KEY}
             async with session.get(url, params=params) as response:
                 response_text = await response.text()
                 response_json = json.loads(response_text)
+                if not response_json.get("success"):
+                    raise ErrorFromExternalAPI()
                 return response_json
 
     async def update_exchange_rates(self, rates: dict) -> None:
