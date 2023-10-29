@@ -6,7 +6,8 @@ from sqlalchemy.dialects.postgresql import insert
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from src.config import settings
-from src.exceptions import CurrencyNotFound, ErrorFromExternalAPI, NegativeAmountOfMoney
+from src.exceptions import (CurrencyNotFound, ErrorFromExternalAPI,
+                            NegativeAmountOfMoney)
 from src.repositories.currency.abc import AbstractCurrencyRepository
 from src.storage.sql import AbstractSQLAlchemyStorage
 from src.storage.sql.models import Currency, LastCurrencyUpdate

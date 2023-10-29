@@ -1,5 +1,7 @@
 import datetime
 
+import pytz
+
 from src.api.currency import router
 from src.api.dependencies import CURRENCY_REPOSITORY_DEPENDENCY
 from src.exceptions import NoLastUpdate
@@ -16,7 +18,8 @@ async def get_last_currency_update(currency_repository: CURRENCY_REPOSITORY_DEPE
     last_update = await currency_repository.get_last_update_time()
     if not last_update:
         raise NoLastUpdate()
-    dt = datetime.datetime.fromtimestamp(last_update)
+    tz = pytz.timezone('Europe/Moscow')
+    dt = datetime.datetime.fromtimestamp(last_update, tz)
     formatted_date = dt.strftime("%Y-%m-%d %H:%M:%S")
     return formatted_date
 
