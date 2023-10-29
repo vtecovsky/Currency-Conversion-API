@@ -101,6 +101,6 @@ class SqlCurrencyRepository(AbstractCurrencyRepository):
         if from_currency == target_currency or amount == 0:
             return amount
         await self.run_update_exchange_rates()
-        base_money = await self.convert_to_base(amount, from_currency)
-        final_money = await self.convert_to_target(base_money, target_currency)
-        return round(final_money, 2)
+        base_amount = await self.convert_to_base(amount, from_currency)
+        final_amount = await self.convert_to_target(base_amount, target_currency)
+        return round(final_amount, 2)

@@ -7,11 +7,11 @@ from src.exceptions import NoLastUpdate
 
 @router.post("/exchange_rates")
 async def update_exchange_rates(currency_repository: CURRENCY_REPOSITORY_DEPENDENCY):
-    return await currency_repository.run_update_exchange_rates()
+    await currency_repository.run_update_exchange_rates()
 
 
 @router.get("/last_update")
-async def get_last_currency_update(currency_repository: CURRENCY_REPOSITORY_DEPENDENCY):
+async def get_last_currency_update(currency_repository: CURRENCY_REPOSITORY_DEPENDENCY) -> str:
     last_update = await currency_repository.get_last_update_time()
     if not last_update:
         raise NoLastUpdate()
@@ -22,6 +22,6 @@ async def get_last_currency_update(currency_repository: CURRENCY_REPOSITORY_DEPE
 
 @router.get("/convert")
 async def convert_currency(
-    from_currency: str, target_currency: str, amount: float, currency_repository: CURRENCY_REPOSITORY_DEPENDENCY
-):
+        from_currency: str, target_currency: str, amount: float, currency_repository: CURRENCY_REPOSITORY_DEPENDENCY
+) -> float:
     return await currency_repository.convert_currency(from_currency, target_currency, amount)
