@@ -36,6 +36,12 @@ docker-compose up -d
 
 POST /api/v1/currency/exchange_rates - актуализирует данные в базе данных
 
+    & from_currency = USD,AUD,CAD,PLN,MXN...
+  
+    & target_currency = USD,AUD,CAD,PLN,MXN...
+  
+    & amount = any non-negative float number
+
 GET /api/v1/currency/last_update - возвращает время последнего изменения курса валют в базе данных
 
 GET /api/v1/currency/convert - производит конвертацию валют 
