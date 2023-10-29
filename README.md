@@ -35,16 +35,22 @@ docker-compose up -d
 Всего реализовано 3 эндпоинта:
 
 POST /api/v1/currency/exchange_rates - актуализирует данные в базе данных
+    
+    Например, http://127.0.0.1:8000/api/v1/currency/exchange_rates
 
 GET /api/v1/currency/last_update - возвращает время последнего изменения курса валют в базе данных
 
+    Например, http://127.0.0.1:8000/api/v1/currency/last_update
+
 GET /api/v1/currency/convert - производит конвертацию валют 
 
-    & from_currency = USD,AUD,CAD,PLN,MXN...
+    ? from_currency = USD, AUD, CAD, RUB, MXN...
   
-    & target_currency = USD,AUD,CAD,PLN,MXN...
+    & target_currency = USD, AUD, CAD, RUB, MXN...
   
     & amount = any non-negative float number
+
+    Например, http://127.0.0.1:8000/api/v1/currency/convert?from_currency=USD&target_currency=RUB&amount=1000
 
 Вы можете протестировать API по адресу 127.0.0.1:8000/docs
 
