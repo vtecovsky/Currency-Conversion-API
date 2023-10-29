@@ -6,8 +6,9 @@ from src.exceptions import NoLastUpdate
 
 
 @router.post("/exchange_rates")
-async def update_exchange_rates(currency_repository: CURRENCY_REPOSITORY_DEPENDENCY):
+async def update_exchange_rates(currency_repository: CURRENCY_REPOSITORY_DEPENDENCY) -> dict:
     await currency_repository.run_update_exchange_rates()
+    return {"success": True}
 
 
 @router.get("/last_update")
