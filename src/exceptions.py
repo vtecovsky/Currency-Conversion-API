@@ -36,3 +36,15 @@ class ErrorFromExternalAPI(HTTPException):
             status_code=status.HTTP_400_BAD_REQUEST,
             detail="Fail in retrieve data from external API",
         )
+
+
+class NegativeAmountOfMoney(HTTPException):
+    """
+    HTTP_400_BAD_REQUEST
+    """
+
+    def __init__(self):
+        super().__init__(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Amount of money should not be negative",
+        )

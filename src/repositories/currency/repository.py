@@ -6,7 +6,7 @@ from sqlalchemy.dialects.postgresql import insert
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from src.config import settings
-from src.exceptions import CurrencyNotFound, ErrorFromExternalAPI
+from src.exceptions import CurrencyNotFound, ErrorFromExternalAPI, NegativeAmountOfMoney
 from src.repositories.currency.abc import AbstractCurrencyRepository
 from src.storage.sql import AbstractSQLAlchemyStorage
 from src.storage.sql.models import Currency, LastCurrencyUpdate
@@ -37,7 +37,7 @@ class SqlCurrencyRepository(AbstractCurrencyRepository):
             await session.commit()
 
     @staticmethod
-    async def get_response_from_api():
+    async def get_response_from_api() -> json:
         async with (aiohttp.ClientSession() as session):
             url = "http://api.exchangeratesapi.io/v1/latest"
             params = {"access_key": settings.ACCESS_KEY}
@@ -96,9 +96,11 @@ class SqlCurrencyRepository(AbstractCurrencyRepository):
             return amount * obj.rate
 
     async def convert_currency(self, from_currency: str, target_currency: str, amount: float) -> float:
-        await self.run_update_exchange_rates()
-        if from_currency == target_currency:
+        if amount < 0:
+            raise NegativeAmountOfMoney()
+        if from_currency == target_currency or amount == 0:
             return amount
+        await self.run_update_exchange_rates()
         base_money = await self.convert_to_base(amount, from_currency)
         final_money = await self.convert_to_target(base_money, target_currency)
-        return final_money
+        return round(final_money, 2)
