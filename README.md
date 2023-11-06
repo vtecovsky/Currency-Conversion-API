@@ -15,7 +15,7 @@ conversion and management of real-time exchange rates. This API allows you to ea
 
 1. [Installation](#installation)
 2. [Running](#running)
-3. [Examples of API usage](#Examples of API usage)
+3. [Examples of API usage](#usage)
 
 ## Installation
 
@@ -36,7 +36,7 @@ docker-compose up -d
 
 The project will be up and running and accessible at 127.0.0.1:8000.
 
-## Examples of API usage
+## Usage
 
 There are three endpoints available:
 
@@ -49,7 +49,7 @@ GET /api/v1/currency/last_update - Returns the time of the last currency rate ch
     For example, http://127.0.0.1:8000/api/v1/currency/last_update
 
 GET /api/v1/currency/convert - Performs currency conversion.
-  
+
     Query parameters:
 
        from_currency = USD, AUD, CAD, RUB, MXN...
