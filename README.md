@@ -1,56 +1,63 @@
 # CurrencyConversionAPI
 
-CurrencyConversionAPI - это веб-сервис, предоставляющий несколько полезных функций, связанных с конвертацией валют и управлением актуальными курсами валют. Данный API позволяет вам легко выполнять следующие операции:
+<b>CurrencyConversionAPI</b> is a web service that provides several useful functionalities related to currency
+conversion and management of real-time exchange rates. This API allows you to easily perform the following operations:
 
-- **Конвертация Валют:** Производить конвертацию между различными валютами на основе актуальных курсов обмена.
+- **Currency Conversion:** Perform currency conversion between different currencies based on current exchange rates.
 
-- **Обновление Курсов Валют:** Обновлять курсы валют с внешних источников, чтобы всегда иметь доступ к актуальной информации.
+- **Update Currency Rates:** Update currency rates from external sources to always have access to up-to-date
+  information.
 
-- **Время Последнего Обновления:** Получать информацию о времени последнего обновления курсов валют, чтобы всегда знать, насколько актуальная ваша информация.
+- **Last Update Time:** Retrieve information about the time of the last currency rates update to ensure the accuracy of
+  your data.
 
-## Содержание
+## Table of Content
 
-1. [Установка](#установка)
-2. [Запуск](#запуск)
-3. [Примеры использования API](#примеры-использования)
+1. [Installation](#installation)
+2. [Running](#running)
+3. [Examples of API usage](#Examples of API usage)
 
-## Установка
+## Installation
 
-Чтобы установить проект, его нужно склонировать себе на компьютер, прописав в терминале команду ниже.
+To install the project, you need to clone it to your computer by running the following command in the terminal:
+
 ```bash
 git clone https://github.com/vtecovsky/CurrencyConversionAPI
 ```
 
-## Запуск
+## Running
 
-Для запуска проекта с использованием Docker Compose, находясь в директории проекта, необходимо прописать в терминале следующую команду:   
+To run the project using Docker Compose, navigate to the project directory and run the following command in the
+terminal:
+
 ```bash
 docker-compose up -d
 ```
 
-Проект будет запущен и доступен по адресу 127.0.0.1:8000 .
+The project will be up and running and accessible at 127.0.0.1:8000.
 
-## Примеры использования
+## Examples of API usage
 
-Всего реализовано 3 эндпоинта:
+There are three endpoints available:
 
-POST /api/v1/currency/exchange_rates - актуализирует данные в базе данных
+POST /api/v1/currency/exchange_rates - Updates data in the database.
+
+    For example, http://127.0.0.1:8000/api/v1/currency/exchange_rates
+
+GET /api/v1/currency/last_update - Returns the time of the last currency rate change in the database.
+
+    For example, http://127.0.0.1:8000/api/v1/currency/last_update
+
+GET /api/v1/currency/convert - Performs currency conversion.
+  
+    Query parameters:
+
+       from_currency = USD, AUD, CAD, RUB, MXN...
     
-    Например, http://127.0.0.1:8000/api/v1/currency/exchange_rates
+       target_currency = USD, AUD, CAD, RUB, MXN...
+    
+       amount = any non-negative float number
 
-GET /api/v1/currency/last_update - возвращает время последнего изменения курса валют в базе данных
+    For example, http://127.0.0.1:8000/api/v1/currency/convert?from_currency=USD&target_currency=RUB&amount=1000
 
-    Например, http://127.0.0.1:8000/api/v1/currency/last_update
-
-GET /api/v1/currency/convert - производит конвертацию валют 
-
-    ? from_currency = USD, AUD, CAD, RUB, MXN...
-  
-    & target_currency = USD, AUD, CAD, RUB, MXN...
-  
-    & amount = any non-negative float number
-
-    Например, http://127.0.0.1:8000/api/v1/currency/convert?from_currency=USD&target_currency=RUB&amount=1000
-
-Вы можете протестировать API по адресу 127.0.0.1:8000/docs
-
+After running the project in Docker you can test the API at 127.0.0.1:8000/docs.
