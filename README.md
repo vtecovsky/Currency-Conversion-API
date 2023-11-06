@@ -19,11 +19,12 @@ conversion and management of real-time exchange rates. This API allows you to ea
 
 ## Installation
 
-To install the project, you need to clone it to your computer by running the following command in the terminal:
-
+1. Clone the project to your machine by running the following command in the terminal:
 ```bash
 git clone https://github.com/vtecovsky/CurrencyConversionAPI
 ```
+
+2. Don`t forget to create .env.local file in the root directory and set up environment variables.
 
 ## Running
 
@@ -40,15 +41,15 @@ The project will be up and running and accessible at 127.0.0.1:8000.
 
 There are three endpoints available:
 
-POST /api/v1/currency/exchange_rates - Updates data in the database.
+1. POST /api/v1/currency/exchange_rates - Updates data in the database.
 
     For example, http://127.0.0.1:8000/api/v1/currency/exchange_rates
 
-GET /api/v1/currency/last_update - Returns the time of the last currency rate change in the database.
+2. GET /api/v1/currency/last_update - Returns the time of the last currency rate change in the database.
 
     For example, http://127.0.0.1:8000/api/v1/currency/last_update
 
-GET /api/v1/currency/convert - Performs currency conversion.
+3. GET /api/v1/currency/convert - Performs currency conversion.
 
     Query parameters:
 
